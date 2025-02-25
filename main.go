@@ -7,11 +7,13 @@ import (
 	"time"
 
 	"advent.com/cmd/day01"
+	"advent.com/cmd/day02"
 )
 
 var dayMap = map[string]func() int{
 	"day01_gold":   day01.Day1Golden,
 	"day01_silver": day01.Day1Silver,
+	"day02_gold":   day02.Day2_Gold,
 }
 
 func main() {
