@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"os"
 	"time"
 
 	"advent.com/cmd/day01"
@@ -21,12 +20,14 @@ func main() {
 	flag.Parse()
 
 	args := flag.Args()
+	var dayToExec string
+
 	if len(args) < 1 {
-		fmt.Println("Usage: go run . [-t] <dayXX_Star>")
-		os.Exit(1)
+		dayToExec = menu()
+	} else {
+		dayToExec = args[0]
 	}
 
-	dayToExec := args[0]
 	dayFunction := dayMap[dayToExec]
 
 	if *testMode {
@@ -34,6 +35,33 @@ func main() {
 	} else {
 		fmt.Printf("result: %v", dayFunction())
 	}
+}
+
+func menu() string {
+	userSelect := false
+	var selection string
+	for !userSelect {
+		fmt.Println("Select a day to execute:")
+		for key := range dayMap {
+			fmt.Printf("%v\n", key)
+		}
+
+		_, err := fmt.Scanln(&selection)
+		userSelect = true
+
+		if err != nil {
+			userSelect = false
+			continue
+		}
+
+		_, ok := dayMap[selection]
+		if !ok {
+			userSelect = false
+			fmt.Println("Wrong selection")
+			fmt.Println()
+		}
+	}
+	return selection
 }
 
 func testModeExecution(dayFunction func() int) {
